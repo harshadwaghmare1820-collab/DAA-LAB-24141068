@@ -1,0 +1,32 @@
+#include <iostream>
+#include <queue>
+#include <vector>
+using namespace std;
+int mergeSortedFiles(vector<int>& fileSizes) {
+    // Min-heap to always merge the two smallest files first
+    priority_queue<int, vector<int>, greater<int> > minHeap(fileSizes.begin(), fileSizes.end());
+    int totalCost = 0;
+    while (minHeap.size() > 1) {
+        int first = minHeap.top(); minHeap.pop();
+        int second = minHeap.top(); minHeap.pop();
+        int mergeCost = first + second;
+        totalCost += mergeCost;
+        // Push merged file back into heap
+        minHeap.push(mergeCost);
+    }
+    return totalCost;
+}
+int main() {
+    int n;
+    cout << "Enter number of files: ";
+    cin >> n;
+    vector<int> fileSizes(n);
+    cout << "Enter sizes of each file:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> fileSizes[i];
+    }
+    int minCost = mergeSortedFiles(fileSizes);
+    cout << "\nMinimum total cost to merge all files = " << minCost << endl;
+    return 0;
+}
+
