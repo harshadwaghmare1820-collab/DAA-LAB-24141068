@@ -1,0 +1,56 @@
+#include <iostream>
+using namespace std;
+// Structure to store student info
+struct Student {
+    int rollNo;
+    string name;
+    float marks;
+};
+// Binary search function to find student by roll number
+int binarySearch(Student students[], int size, int targetRollNo) {
+    int left = 0, right = size -1;
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (students[mid].rollNo == targetRollNo)
+            return mid;
+        else if (students[mid].rollNo < targetRollNo)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return -1; // Not found
+}
+
+int main() {
+    int size;
+    cout << "Enter number of students: ";
+    cin >> size;
+    Student students[size];
+    // Input student data
+    cout << "Enter student details (in ascending order of roll number):\n";
+    for (int i = 0; i < size; ++i) {
+        cout << "\nStudent " << i + 1 << ":\n";
+        cout << "Roll Number: ";
+        cin >> students[i].rollNo;
+        cout << "Name: ";
+        cin.ignore(); // Clear newline before getline
+        getline(cin, students[i].name);
+        cout << "Marks: ";
+        cin >> students[i].marks;
+    }
+    int targetRollNo;
+    cout << "\nEnter roll number to search: ";
+    cin >> targetRollNo;
+    int index = binarySearch(students, size, targetRollNo);
+
+    if (index != -1) {
+        cout << "\nStudent found:\n";
+        cout << "Roll No: " << students[index].rollNo << endl;
+        cout << "Name: " << students[index].name << endl;
+        cout << "Marks: " << students[index].marks << endl;
+    } else {
+        cout << "\nStudent with Roll No " << targetRollNo << " not found.\n";
+    }
+    return 0;
+}
